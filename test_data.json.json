@@ -1,0 +1,13 @@
+{
+  "residents": {
+    "MH12AB1234": true,
+    "DL10CA9999": true,
+    "KA05NB5678": true
+  },
+  "logs": {
+    "placeholder": {
+      "status": "system_init",
+      "timestamp": "2024-01-01T00:00:00Z"
+    }
+  }
+}

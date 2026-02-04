@@ -1,0 +1,30 @@
+{
+  "project_info": {
+    "project_number": "861101323987",
+    "firebase_url": "https://society-guardian-2aec3-default-rtdb.asia-southeast1.firebasedatabase.app",
+    "project_id": "society-guardian-2aec3",
+    "storage_bucket": "society-guardian-2aec3.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:861101323987:android:9363847b5dad58bbb88626",
+        "android_client_info": {
+          "package_name": "com.nayak.guardian.app"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAKG_mDotMH5VUeS1TRSVjgslyHDiDO9Eo"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
