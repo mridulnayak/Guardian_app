@@ -1,18 +1,37 @@
 import 'package:flutter/material.dart';
 import 'package:firebase_core/firebase_core.dart';
 
-// Correct paths based on your new folders
+// Screens
 import 'screens/raise_request_screen.dart';
 import 'screens/resident_view.dart';
+import 'screens/details_screen.dart';
+import 'screens/scan_screen.dart';
+import 'screens/check_status_screen.dart'; // Naya screen import kiya
+
+// Services
 import 'services/database_service.dart';
-import 'screens/details_screen.dart'; // No folder prefix because it's in root lib
-import 'screens/scan_screen.dart';    // No folder prefix because it's in root lib
 
 void main() async {
-  WidgetsFlutterBinding.ensureInitialized(); // Ye line miss mat karna
-  await Firebase.initializeApp();
-  runApp(const MyApp());
+  WidgetsFlutterBinding.ensureInitialized();
+
+  try {
+    // Firebase manual initialization
+    await Firebase.initializeApp(
+      options: const FirebaseOptions(
+        apiKey: "YOUR_API_KEY_HERE", // JSON file se fill karein
+        appId: "YOUR_APP_ID_HERE",   // JSON file se fill karein
+        messagingSenderId: "YOUR_SENDER_ID",
+        projectId: "YOUR_PROJECT_ID",
+      ),
+    );
+  } catch (e) {
+    // Agar automatic load ho jaye (values.xml se)
+    await Firebase.initializeApp();
+  }
+
+  runApp(const GuardianApp());
 }
+
 class GuardianApp extends StatelessWidget {
   const GuardianApp({super.key});
 
@@ -33,6 +52,7 @@ class GuardianApp extends StatelessWidget {
 class GuardDashboard extends StatelessWidget {
   const GuardDashboard({super.key});
 
+  // Common Widget for Dashboard Cards
   Widget _buildMenuCard(BuildContext context, String title, IconData icon, Color color, Widget page) {
     return Card(
       elevation: 4,
@@ -77,7 +97,10 @@ class GuardDashboard extends StatelessWidget {
               contentPadding: EdgeInsets.zero,
               title: Text("Welcome back,", style: TextStyle(color: Colors.grey)),
               subtitle: Text("Main Gate Security", style: TextStyle(fontSize: 22, fontWeight: FontWeight.bold)),
-              trailing: CircleAvatar(backgroundColor: Colors.indigo, child: Icon(Icons.security, color: Colors.white)),
+              trailing: CircleAvatar(
+                  backgroundColor: Colors.indigo,
+                  child: Icon(Icons.security, color: Colors.white)
+              ),
             ),
             const SizedBox(height: 20),
             Expanded(
@@ -86,14 +109,21 @@ class GuardDashboard extends StatelessWidget {
                 crossAxisSpacing: 15,
                 mainAxisSpacing: 15,
                 children: [
+                  // 1. Scan Vehicle Screen
                   _buildMenuCard(context, "Scan Vehicle", Icons.document_scanner, Colors.blue, const ScanScreen()),
-                  _buildMenuCard(context, "Resident View", Icons.person_search, Colors.orange, const ResidentView()),
-                  _buildMenuCard(context, "Check Status", Icons.rule, Colors.green, const PlaceholderScreen("Status Tracking")),
+
+                  // 2. Resident Simulation (Demo Role)
+                  _buildMenuCard(context, "Resident Simulation", Icons.person_search, Colors.orange, const ResidentView()),
+
+                  // 3. Status Tracking Screen (Fixed from Placeholder)
+                  _buildMenuCard(context, "Check Status", Icons.rule, Colors.green, const CheckStatusScreen()),
+
+                  // 4. Logs and History
                   _buildMenuCard(context, "Logs / History", Icons.history, Colors.purple, const DetailsScreen()),
                 ],
               ),
             ),
-            // Quick Status Info
+            // Footer Info
             Container(
               padding: const EdgeInsets.all(16),
               decoration: BoxDecoration(
@@ -104,7 +134,9 @@ class GuardDashboard extends StatelessWidget {
                 children: [
                   Icon(Icons.info_outline, color: Colors.indigo),
                   SizedBox(width: 10),
-                  Expanded(child: Text("Ensure license plates are clearly visible before scanning.")),
+                  Expanded(
+                      child: Text("Ensure license plates are clearly visible before scanning for high accuracy OCR.")
+                  ),
                 ],
               ),
             ),
@@ -113,11 +145,4 @@ class GuardDashboard extends StatelessWidget {
       ),
     );
   }
-}
-
-class PlaceholderScreen extends StatelessWidget {
-  final String name;
-  const PlaceholderScreen(this.name, {super.key});
-  @override
-  Widget build(BuildContext context) => Scaffold(appBar: AppBar(title: Text(name)), body: Center(child: Text("$name integration pending.")));
 }

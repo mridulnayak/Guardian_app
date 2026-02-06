@@ -1,3 +1,18 @@
+//plugins {
+//    // Versions hata diye hain taaki version conflict na ho
+//    id("com.android.application") apply false
+//    id("com.android.library") apply false
+//    id("org.jetbrains.kotlin.android") apply false
+//    id("com.google.gms.google-services") version "4.4.0" apply false // Firebase plugin
+//
+
+plugins {
+    // Versions ko puri tarah se hata dein, Flutter ise handle karega
+    id("com.android.application") apply false
+    id("com.android.library") apply false
+    id("org.jetbrains.kotlin.android") apply false
+    id("com.google.gms.google-services") version "4.4.0" apply false
+}
 allprojects {
     repositories {
         google()
