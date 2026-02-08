@@ -6,6 +6,17 @@ import '../models/visitor_model.dart';
 class DatabaseService {
   final FirebaseFirestore _db = FirebaseFirestore.instance;
 
+  // Visitor ke exit ko mark karne ke liye
+  Future<void> markExit(String docId) async {
+    try {
+      await _db.collection('requests').doc(docId).update({
+        'isExited': true,
+        'exitTime': FieldValue.serverTimestamp(), // Analysis ke liye exact exit time
+      });
+    } catch (e) {
+      debugPrint("Exit Error: $e");
+    }
+  }
   /// 1. Resident Verification
   /// Checks if a plate exists in the 'residents' collection.
   Future<bool> isResident(String plateNumber) async {
